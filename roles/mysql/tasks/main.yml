@@ -1,2 +1,54 @@
 ---
-# tasks file for mysql
+- name: start Mysql
+  k8s:
+    definition:
+      kind: StatefulSet
+      apiVersion: apps/v1
+      metadata:
+        name: 'mysql-deployment'
+        namespace: '{{ meta.namespace }}'
+      spec:
+        replicas: "{{size}}"
+        selector:
+          matchLabels:
+            app: mysql
+        template:
+          metadata:
+            labels:
+              app: mysql
+        spec:
+          containers:
+          - name: mysql
+            image: "{{image}}"
+            ports:
+            - containerPort: 3306
+            env:
+            # Use secret in real usage
+            - name: MYSQL_ROOT_PASSWORD
+              value: password
+
+            volumeMounts:
+            - name: mysqlql-data
+              mountPath: " /var/lib/mysql "
+          volumes:
+          - name: mysqlql-data
+            persistentVolumeClaim:
+              claimName: mysqlql-pvc-vol1
+- name: Create the service
+k8s:
+  definition:
+    apiVersion: v1
+    kind: Service
+    metadata:
+      name: service
+      namespace: '{{ meta.namespace }}'
+      labels:
+        app: mysql
+    spec:
+      ports:
+      - name: database
+        port: 3306
+        protocol: TCP
+        targetPort: 3306
+      selector:
+        app: mysql
