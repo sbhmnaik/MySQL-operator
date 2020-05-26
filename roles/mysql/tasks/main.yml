@@ -34,21 +34,21 @@
           - name: mysqlql-data
             persistentVolumeClaim:
               claimName: mysqlql-pvc-vol1
-- name: Create the service
-  k8s:
-    definition:
-      apiVersion: v1
-      kind: Service
-      metadata:
-        name: service
-        namespace: '{{ meta.namespace }}'
-        labels:
-          app: mysql
-      spec:
-        ports:
-        - name: database
-          port: 3306
-          protocol: TCP
-          targetPort: 3306
-        selector:
-          app: mysql
+  - name: Create the service
+    k8s:
+      definition:
+        apiVersion: v1
+        kind: Service
+        metadata:
+          name: service
+          namespace: '{{ meta.namespace }}'
+          labels:
+            app: mysql
+        spec:
+          ports:
+          - name: database
+            port: 3306
+            protocol: TCP
+            targetPort: 3306
+          selector:
+            app: mysql
