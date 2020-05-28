@@ -18,7 +18,9 @@
               app: mysql
           spec:
             containers:
-            - name: mysql
+            - name: mysql-container
+              securityContext:
+                privileged: true
               image: "{{image}}"
               ports:
               - containerPort: 3306
