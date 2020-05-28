@@ -17,10 +17,11 @@
             labels:
               app: mysql
           spec:
+            serviceAccountName: node-red-operator
+            securityContext:
+              fsGroup: 1000
             containers:
             - name: mysql-container
-              securityContext:
-                privileged: true
               image: "{{image}}"
               ports:
               - containerPort: 3306
