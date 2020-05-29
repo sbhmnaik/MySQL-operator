@@ -17,14 +17,11 @@
             labels:
               app: mysql
           spec:
-            serviceAccountName: myserviceaccount
-            securityContext:
-              fsGroup: 1000
             containers:
-            - name: mysql-container
+            - name: mysql
+              image: openshift/mysql-55-centos7
               securityContext:
-              privileged: true
-              image: "{{image}}"
+                      privileged: true
               ports:
               - containerPort: 3306
               env:
