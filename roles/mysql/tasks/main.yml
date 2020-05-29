@@ -17,7 +17,7 @@
             labels:
               app: mysql
           spec:
-            serviceAccountName: node-red-operator
+            serviceAccountName: myserviceaccount
             securityContext:
               fsGroup: 1000
             containers:
